@@ -1,0 +1,6 @@
+[submodule "afl-utils"]
+	path = afl-utils
+	url = https://gitlab.com/rc0r/afl-utils
+[submodule "AFL"]
+	path = AFL
+	url = https://github.com/google/AFL.git
