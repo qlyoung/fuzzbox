@@ -12,7 +12,8 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
       gpg \
       apt-transport-https \
       lsb-release \
-      software-properties-common
+      software-properties-common \
+      gdb
 
 # dependencies setup
 RUN mkdir /opt/aflbox/
