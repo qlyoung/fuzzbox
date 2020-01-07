@@ -29,8 +29,10 @@ COPY grafana-stuff/grafana-provisioning-datasources-influxdb.yaml /usr/share/gra
 # Create fuzzing database
 RUN eval 'influxd run &' && sleep 2 && influx -execute "CREATE DATABASE fuzzing"
 
-# Create entrypoint
-COPY entrypoint.sh /opt/entrypoint.sh
+# Grafana
+EXPOSE 3000
+# InfluxDB
+EXPOSE 8086
 
-# set entrypoint
+COPY entrypoint.sh /opt/entrypoint.sh
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
