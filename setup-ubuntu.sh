@@ -11,16 +11,6 @@ fi
 printf "[+] Installing basic dependencies\n"
 apt-get install -yqq python3 python3-setuptools build-essential cgroup-bin
 
-printf "[+] Installing Grafana\n"
-wget -q -O - https://packages.grafana.com/gpg.key | apt-key add -
-add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
-add-apt-repository "deb https://packages.grafana.com/oss/deb beta main"
-apt-get update -yqq
-apt-get install -yqq grafana
-
-printf "[+] Installing InfluxDB\n"
-apt-get install -y grafana influxdb influxdb-client
-
 printf "[+] Installing afl-utils\n"
 cd afl-utils
 python3 setup.py install
