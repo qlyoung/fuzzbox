@@ -9,7 +9,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 printf "[+] Installing basic dependencies\n"
-apt-get install -yqq python3 python3-setuptools build-essential cgroup-bin
+apt-get install -yqq python3 python3-setuptools build-essential cgroup-bin git
 
 printf "[+] Installing afl-utils\n"
 cd afl-utils
@@ -39,7 +39,9 @@ if [ $? -eq 0 ]; then
 	printf "[!] Existing AFL installation found; skipping AFL install\n"
 else
 	printf "[+] Building and installing AFL\n"
+	git clone --single-branch --branch afl-continue-core-search https://github.com/qlyoung/AFL.git
 	cd AFL
+	git 
 	make
 	cd llvm_mode
 	make
