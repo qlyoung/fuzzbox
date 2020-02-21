@@ -1,4 +1,4 @@
-# Sets up a Docker image with Grafana, InfluxDB, fuzzable FRR and AFL
+# Sets up a Docker image with Grafana, InfluxDB and AFL
 # Grafana will monitor AFL's fuzzing progress and is accessible on port 3000
 
 FROM ubuntu:18.04 as base
@@ -17,7 +17,6 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 
 # dependencies setup
 RUN mkdir /opt/aflbox/
-COPY ./AFL /opt/aflbox/AFL
 COPY ./afl-utils /opt/aflbox/afl-utils
 COPY ./setup-ubuntu.sh /opt/aflbox/
 RUN cd /opt/aflbox/ && /opt/aflbox/setup-ubuntu.sh

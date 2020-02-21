@@ -12,6 +12,7 @@ printf "[+] Installing basic dependencies\n"
 apt-get install -yqq python3 python3-setuptools build-essential cgroup-bin git
 
 printf "[+] Installing afl-utils\n"
+git clone https://gitlab.com/rc0r/afl-utils
 cd afl-utils
 python3 setup.py install
 cd ..
@@ -39,7 +40,8 @@ if [ $? -eq 0 ]; then
 	printf "[!] Existing AFL installation found; skipping AFL install\n"
 else
 	printf "[+] Building and installing AFL\n"
-	git clone --single-branch --branch afl-continue-core-search https://github.com/qlyoung/AFL.git
+	# git clone --single-branch --branch afl-continue-core-search https://github.com/qlyoung/AFL.git
+	git clone https://github.com/vanhauser-thc/AFLplusplus.git AFL
 	cd AFL
 	git 
 	make
@@ -48,6 +50,7 @@ else
 	cd ..
 	make install
 	cd ..
+	rm -rf AFL
 fi
 
 printf "[+] All done, see README.md for further instructions\n"
