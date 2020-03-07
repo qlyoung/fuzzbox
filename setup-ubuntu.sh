@@ -9,13 +9,15 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 printf "[+] Installing basic dependencies\n"
-apt-get install -yqq python3 python3-setuptools build-essential cgroup-bin git
+apt-get install -yqq python3 python3-dev python3-setuptools build-essential cgroup-bin git
 
 printf "[+] Installing afl-utils\n"
 git clone https://gitlab.com/rc0r/afl-utils
 cd afl-utils
 python3 setup.py install
 cd ..
+
+LLVM_VER=9
 
 printf "[+] Checking for LLVM / clang...\n"
 CLANG=$(which clang) > /dev/null
@@ -24,11 +26,14 @@ if [ $? -eq 0 ]; then
 	printf "[!] Existing LLVM / clang installation found; skipping LLVM install\n"
 else
 	printf "[+] Installing LLVM / clang\n"
-	bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-	ln -s /usr/bin/clang-9 /usr/bin/clang
-	ln -s /usr/bin/clang++-9 /usr/bin/clang++
-	ln -s /usr/bin/llvm-symbolizer-9 /usr/bin/llvm-symbolizer
-	ln -s /usr/bin/llvm-config-9 /usr/bin/llvm-config
+	wget https://apt.llvm.org/llvm.sh
+	chmod +x llvm.sh
+	./llvm.sh $LLVM_VER
+	for file in /usr/bin/llvm-*; do
+		TGT=$(echo $file | sed "s/-$LLVM_VER//g")
+		echo "Linking $file to $TGT"
+		ln -s $file $TGT
+	done
 	CLANG=$(which clang)
 	printf "[+] %s\n" $($CLANG -v | head -n 1)
 fi
@@ -43,7 +48,6 @@ else
 	# git clone --single-branch --branch afl-continue-core-search https://github.com/qlyoung/AFL.git
 	git clone https://github.com/vanhauser-thc/AFLplusplus.git AFL
 	cd AFL
-	git 
 	make
 	cd llvm_mode
 	make
